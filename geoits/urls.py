@@ -13,11 +13,13 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+# -*- coding: utf-8 -*-
 from django.conf.urls import include, url
 from django.contrib import admin
-from .views import home
+from .views import home, home_files
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', home, name='home'),
+    url(r'^(?P<filename>(robots.txt)|(humans.txt))$', home_files, name='home_files'),
 ]
