@@ -57,6 +57,8 @@ INSTALLED_APPS += (
     # Login via Google
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.github',
+    # GeoITS apps
+    'geoits.apps.geoitsmanager',
 )
 
 SITE_ID = 1
