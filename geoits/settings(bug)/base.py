@@ -31,6 +31,8 @@ def get_env_variable(var_name):
 
 SECRET_KEY = get_env_variable('SECRET_KEY')
 
+# SECRET_KEY = "kn=%oe&abar$47^dw@+ouhvlhomfq1@&5cbbsi-wcc91#mt#q7"
+
 # Set the gdal path (probably need it when you use the virtual environment)
 GDAL_LIBRARY_PATH = '/home/pydev/miniconda/envs/geoits_dev/lib/libgdal.so'
 
@@ -124,16 +126,16 @@ AUTHENTICATION_BACKENDS = (
 WSGI_APPLICATION = 'geoits.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'geoits_db',
+        'USER': 'geouser',
+        'PASSWORD': 'geouser',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
