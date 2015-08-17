@@ -31,6 +31,10 @@ def get_env_variable(var_name):
 
 SECRET_KEY = get_env_variable('SECRET_KEY')
 
+# Set the gdal path (probably need it when you use the virtual environment)
+GDAL_LIBRARY_PATH = '/home/pydev/miniconda/envs/geoits_dev/lib/libgdal.so'
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -59,6 +63,8 @@ INSTALLED_APPS += (
     'allauth.socialaccount.providers.github',
     # GeoITS apps
     'geoits.apps.geoitsmanager',
+    # Geographic Framework - GeoDjango
+    'django.contrib.gis',
 )
 
 SITE_ID = 1
