@@ -145,10 +145,38 @@
         );
     }
 
+    function GMapPolygonToWKT(poly)
+    {
+     // Start the Polygon Well Known Text (WKT) expression
+     var wkt = "SRID=4326;GEOMETRYCOLLECTION(POLYGON(";
+
+     var paths = geoField.getPaths();
+     for(var i=0; i<paths.getLength(); i++)
+     {
+      var path = paths.getAt(i);
+      
+      // Open a ring grouping in the Polygon Well Known Text
+      wkt += "(";
+      for(var j=0; j<path.getLength(); j++)
+      {
+       // add each vertice and anticipate another vertice (trailing comma)
+       wkt += path.getAt(j).lng().toString() + " " + path.getAt(j).lat().toString() +",";
+      }
+      
+      // Also close the ring grouping and anticipate another ring (trailing comma)
+      wkt += path.getAt(0).lng().toString() + " " + path.getAt(0).lat().toString() + "),";
+     }
+     
+     // resolve the last trailing "," and close the Polygon
+     wkt = wkt.substring(0, wkt.length - 1) + "))";
+     
+     return wkt;
+    }
+
+
     // save the path to database
     function CreateCourseRegionPoly(poly) {
-        var polypath = geoField.getPath();
-        var encodeString = google.maps.geometry.encoding.encodePath(polypath);
+        var wkt = GMapPolygonToWKT(geoField);
         $(function() {
             $("input").click(function() {
                 $.ajax({
@@ -157,7 +185,7 @@
                     cache: false,
                     dataType: 'json',
                     data: {
-                        geom : "SRID=3857;GEOMETRYCOLLECTION(POLYGON((1819020.9870235 6139624.3726658,1824104.0494038 6135420.3361107,1815772.4133219 6134847.0583987,1819020.9870235 6139624.3726658)))",
+                        geom : wkt,
                         csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
