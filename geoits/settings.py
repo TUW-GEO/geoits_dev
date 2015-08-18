@@ -3,7 +3,9 @@
 import os
 from django.core.exceptions import ImproperlyConfigured
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# We have to use below path if we use settings.py instead of settings folder
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # Keep secret the SECRET_KEY
@@ -49,6 +51,7 @@ INSTALLED_APPS += (
     'allauth.socialaccount.providers.github',
     # GeoITS apps
     'geoits.apps.geoitsmanager',
+    'geoits.apps.gmap',
     # Geographic Framework - GeoDjango
     'django.contrib.gis',
 )
@@ -113,7 +116,7 @@ WSGI_APPLICATION = 'geoits.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'geoits_db',
         'USER': 'geouser',
         'PASSWORD': 'geouser',
