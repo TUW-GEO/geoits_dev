@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', home, name='home'),
     url(r'^gmap/test/$', 'geoits.apps.gmap.views.ajax'),
     url(r'^gmap/', 'geoits.apps.gmap.views.map', name='map'),
+    url(r'^wiki/', include('waliki.urls')),
     url(r'^(?P<filename>(robots.txt)|(humans.txt))$',
         home_files, name='home_files'),
     url(r'^accounts/', include('allauth.urls')),

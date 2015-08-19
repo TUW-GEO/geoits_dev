@@ -3,7 +3,7 @@
 import os
 from django.core.exceptions import ImproperlyConfigured
 
-#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # We have to use below path if we use settings.py instead of settings folder
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,6 +54,10 @@ INSTALLED_APPS += (
     'geoits.apps.gmap',
     # Geographic Framework - GeoDjango
     'django.contrib.gis',
+    # Wiki Engine App
+    'waliki',
+    'waliki.git',
+    'waliki.attachments',
 )
 
 SITE_ID = 1
