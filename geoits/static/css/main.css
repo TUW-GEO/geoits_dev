@@ -8,14 +8,65 @@
     color: rgba(192, 192, 192, 0.3);
 }
 
+/* General styles for all menus */
+.cbp-spmenu {
+	background: #e6e6e6;
+	position: fixed;
+}
 
+.cbp-spmenu-vertical {
+	width: 640px;
+	height: 100%;
+	top: 51px;
+	z-index: 1500;
+}
 
+.cbp-spmenu-left {
+	left: -640px;
+}
 
+.cbp-spmenu-left.cbp-spmenu-open {
+	left: 0px;
+}
 
+.cbp-spmenu {
+	-webkit-transition: all 0.1s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
 
+#map_canvas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -100;
+}
+#button {
+    position: absolute;
+    top: 120px;
+    padding: 5px;
+    margin: 0;
+    right: 0
+}
+.navbar-fixed-top {
+	position: relative;
+}
+.navbar {
+	display: block;
+	margin-bottom: 0px;
+}
 
+#submit {
+	margin: 15px
+}
 
+#wiki {
+	margin: 15px
+}
 
+h3 {
+	margin: 15px
+}
 
 
 
