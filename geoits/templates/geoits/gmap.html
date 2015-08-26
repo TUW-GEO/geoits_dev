@@ -14,8 +14,13 @@
         <div id="map_canvas"></div>
     </form>
 
+    <form>
+        {{ form.media }}
+        {% for item in map_results %}
+            {{item}}
+        {% endfor %}
     <div id="result"></div>
-
+    </form>
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <h3>Issue</h3>
         <textarea id="wiki" rows="18" cols="70"></textarea>
@@ -33,6 +38,26 @@
             classie.toggle( this, 'active' );
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
         };
+    </script>
+    <script>
+        $("input").click(function() {
+            $.ajax({
+                url: "test/",
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                data: {
+                    geom : wkt,
+                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("Messaging failed: " + errorThrown);
+                },
+                success: function(data) {
+                    $('#result').append('ServerResponse:' + data.server_response)
+                }
+            });
+        })
     </script>
 </body>
 
