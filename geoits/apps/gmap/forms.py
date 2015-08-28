@@ -3,7 +3,7 @@ from geoits.apps.gmap.models import GMap
 
 
 class GMapForm(forms.ModelForm):
-    geom = forms.GeometryCollectionField(srid=4326, widget=forms.OSMWidget())
+    geom = forms.PolygonField(widget=forms.OSMWidget())
 
     class Meta:
         model = GMap
