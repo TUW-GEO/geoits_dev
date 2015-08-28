@@ -138,7 +138,7 @@ function FieldDrawingCompletionListener() {
 
 function GMapPolygonToWKT(poly) {
     // Start the Polygon Well Known Text (WKT) expression
-    wkt = "SRID=4326;GEOMETRYCOLLECTION(POLYGON(";
+    wkt = "SRID=4326;POLYGON(";
     var paths = geoField.getPaths();
     for(var i=0; i<paths.getLength(); i++) {
         var path = paths.getAt(i);
@@ -158,7 +158,7 @@ function GMapPolygonToWKT(poly) {
             + "),";
     }
     // resolve the last trailing "," and close the Polygon
-    wkt = wkt.substring(0, wkt.length - 1) + "))";
+    wkt = wkt.substring(0, wkt.length - 1) + ")";
     return wkt;
 }
 

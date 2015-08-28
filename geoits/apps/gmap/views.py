@@ -1,9 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from geoits.apps.gmap.forms import GMapForm
+from geoits.apps.gmap.models import GMap
 import json
 
-# Create your views here.
+
+def load(request):
+    objects = GMap.objects.all()
+
+    polys = {}
+    for obj in objects:
+        polys[obj.id] = {'geom': obj.geom.coords,
+                         'id': obj.id,
+                         'srid': obj.geom.srid}
+    return HttpResponse(json.dumps(polys),
+                        content_type='application/javascript')
 
 
 def map(request):

@@ -8,19 +8,13 @@
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing,geometry"></script>
 <script src="{% static 'js/gmap.js' %}"></script>
 
-<body onload="initialize()" style="height: 50px;">
+<body style="height: 50px;">
     <!--Google Maps APIv3 Background-->
-    <form action="" method="POST"> {%csrf_token%}
+    <div action="" method="POST"> {%csrf_token%}
         <div id="map_canvas"></div>
-    </form>
-
-    <form>
-        {{ form.media }}
-        {% for item in map_results %}
-            {{item}}
-        {% endfor %}
+    </div>
     <div id="result"></div>
-    </form>
+
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <h3>Issue</h3>
         <textarea id="wiki" rows="18" cols="70"></textarea>
@@ -40,6 +34,8 @@
         };
     </script>
     <script>
+     $(document).ready(function() {
+        var polyArray = []
         $("input").click(function() {
             $.ajax({
                 url: "test/",
@@ -57,7 +53,41 @@
                     $('#result').append('ServerResponse:' + data.server_response)
                 }
             });
-        })
+        });
+         initialize();
+         $.ajax({
+             url: "load_polygons/",
+             dataType: 'json',
+             type: 'GET',
+             success: function(data, status, jqXHR){
+                 $.each(data, function(i, polygon){
+                     var coords = [];
+                     $.each(polygon.geom, function(i,points){
+                         $.each(points, function(i, point){
+                             coords.push({lat: point[1], lng: point[0]})
+                         })
+                     })
+                    var poly = new google.maps.Polygon({
+                        paths: coords,
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35
+                    });
+                    var polygonStore = [];
+                    polygonStore['id'] = polygon.id;
+                    polygonStore['obj'] = poly;
+                    poly.indexID = polygon.id;
+                    polyArray.push(polygonStore);
+                    google.maps.event.addListener(poly, 'click', function (event) {
+                        alert(this.indexID);
+                    });
+                    poly.setMap(map);
+                 })
+             }
+         });
+     })
     </script>
 </body>
 
