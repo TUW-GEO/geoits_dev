@@ -17,43 +17,55 @@
 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <h3>Issue</h3>
-        <textarea id="wiki" rows="18" cols="70"></textarea>
         <input class="btn btn-success" id="submit" type="button" value="Submit" name="csrfmiddlewaretoken"></input>
+
+        <iframe id="iframe" name="iframe1" src="" style="width: 640px; height: 700px" allowfullscreen ></iframe>
+
     </nav>
     <div class="navbar-form navbar-right" id="button">
         <button class="btn btn-success" id="showLeft">Save</button>
     </div>
-    <script>
-        var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
-            showLeft = document.getElementById( 'showLeft' ),
-            body = document.body;
 
-        showLeft.onclick = function() {
-            classie.toggle( this, 'active' );
-            classie.toggle( menuLeft, 'cbp-spmenu-open' );
-        };
-    </script>
     <script>
      $(document).ready(function() {
-        var polyArray = []
-        $("input").click(function() {
-            $.ajax({
-                url: "test/",
-                type: 'POST',
-                cache: false,
-                dataType: 'json',
-                data: {
-                    geom : wkt,
-                    csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert("Messaging failed: " + errorThrown);
-                },
-                success: function(data) {
-                    $('#result').append('ServerResponse:' + data.server_response)
-                }
-            });
-        });
+         var polyArray = []
+         $("#showLeft").click(function() {
+             $.ajax({
+                 url: "test/",
+                 type: 'POST',
+                 cache: false,
+                 dataType: 'json',
+                 data: {
+                     geom : wkt,
+                     csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                 },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                     alert("Messaging failed: " + errorThrown);
+                 },
+                 success: function(data) {
+                     var dataid = data.id;
+                     $.ajax({
+                         url: "/wiki/" + data.id + "/edit",
+                         type: 'POST',
+                         cache: false,
+                         data: {
+                             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
+                         },
+                         error: function(jqXHR, textStatus, errorThrown) {
+                             alert("Messaging failed: " + errorThrown);
+                         },
+                         success: function(data) {
+                             document.getElementById("iframe").src = "/wiki/" + dataid + "/edit";
+                             var menuLeft = document.getElementById( 'cbp-spmenu-s1' );
+                             if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
+                                 classie.toggle( menuLeft, 'cbp-spmenu-open' );
+                             }
+                             $('#result').append('ServerResponse:' + data.server_response)
+                         }
+                     });
+                 }
+             });
+         });
          initialize();
          $.ajax({
              url: "load_polygons/",
@@ -75,19 +87,25 @@
                         fillColor: '#FF0000',
                         fillOpacity: 0.35
                     });
-                    var polygonStore = [];
-                    polygonStore['id'] = polygon.id;
-                    polygonStore['obj'] = poly;
-                    poly.indexID = polygon.id;
-                    polyArray.push(polygonStore);
-                    google.maps.event.addListener(poly, 'click', function (event) {
-                        alert(this.indexID);
-                    });
-                    poly.setMap(map);
+
+                     var polygonStore = [];
+                     polygonStore['id'] = polygon.id;
+                     polygonStore['obj'] = poly;
+                     poly.indexID = polygon.id;
+                     polyArray.push(polygonStore);
+                     google.maps.event.addListener(poly, 'click', function (event) {
+                         console.log(this.indexID);
+                         document.getElementById("iframe").src = "/wiki/" + this.indexID;
+                         var menuLeft = document.getElementById( 'cbp-spmenu-s1' );
+                         if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
+                             classie.toggle( menuLeft, 'cbp-spmenu-open' );
+                         }
+                     });
+                     poly.setMap(map);
                  })
              }
          });
-     })
+     });
     </script>
 </body>
 

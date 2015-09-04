@@ -28,6 +28,7 @@ def ajax(request):
             instance = form.save(commit=False)
             instance.save()
         return HttpResponse(json.dumps({'success': True,
+                                        'id': instance.id,
                                         'server_response': "Thank You!"}),
                             content_type='application/javascript')
     else:
