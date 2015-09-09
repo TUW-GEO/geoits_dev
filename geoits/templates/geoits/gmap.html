@@ -101,13 +101,13 @@
                          console.log(this.indexID);
                          var id = this.indexID;
                           $.ajax({
-                              url: "get_wiki/",
+                              url: "get_wiki/?id=" + id,
                               dataType: 'json',
                               type: 'GET',
                               success: function(data, status, jqXHR){
                                     $("#message").val("");
-                                    $("#title").val(data[id].title);
-                                    $("#raw").val(data[id].raw);
+                                    $("#title").val(data.title);
+                                    $("#raw").val(data.raw);
                               }
                          });
                          var menuLeft = document.getElementById( 'cbp-spmenu-s1' );

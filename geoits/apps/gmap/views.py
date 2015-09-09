@@ -26,19 +26,12 @@ def load(request):
 
 
 def get_wiki_content(request):
-    objects = GMap.objects.all()
-
-    wikis = {}
-    for obj in objects:
-        try:
-            page = Page.objects.get(slug=str(obj.id))
-        except Page.DoesNotExist:
-            continue
-        wikis[obj.id] = {'id': page.id,
-                         'title': page.title,
-                         'raw': page.raw}
-
-    return HttpResponse(json.dumps(wikis),
+    slug = request.GET['id']
+    page = Page.objects.get(slug=slug)
+    return HttpResponse(json.dumps({'success': True,
+                                    'title': page.title,
+                                    'id': page.id,
+                                    'raw': page.raw}),
                         content_type='application/javascript')
 
 
