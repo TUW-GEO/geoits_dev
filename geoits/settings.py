@@ -148,3 +148,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
+
+# Waliki configuration
+WALIKI_LOGGED_USER_PERMISSSIONS = ('view_page', 'add_page', 'change_page',
+                                   'delete_page')

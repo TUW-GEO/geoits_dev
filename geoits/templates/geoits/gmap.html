@@ -17,26 +17,49 @@
 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <h3>Issue</h3>
-        <input class="btn btn-success" id="submit" type="button" value="Submit" name="csrfmiddlewaretoken"></input>
+        <div class="form-group" style="margin: 5px">
 
-        <iframe id="iframe" name="iframe1" src="" style="width: 640px; height: 700px" allowfullscreen ></iframe>
+            <textarea class="form-control" id="title" style="height: 40px; resize: none;" placeholder="Title"></textarea>
 
+            <textarea class="form-control" id="raw" style="height: 300px; resize: none;" placeholder="Raw"></textarea>
+
+            <textarea class="form-control" id="message" style="height: 40px; resize: none;" placeholder="Message e.x. Update MyPoly.rst"></textarea>
+
+            <input class="btn btn-primary" id="submit" type="button" value="Submit" name="csrfmiddlewaretoken"></input>
+
+        </div>
     </nav>
     <div class="navbar-form navbar-right" id="button">
         <button class="btn btn-success" id="showLeft">Save</button>
     </div>
 
     <script>
+        var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
+            showLeft = document.getElementById( 'showLeft' ),
+            body = document.body;
+        showLeft.onclick = function() {
+            classie.toggle( this, 'active' );
+            classie.toggle( menuLeft, 'cbp-spmenu-open' );
+         };
+    </script>
+    <script>
      $(document).ready(function() {
-         var polyArray = []
-         $("#showLeft").click(function() {
+         var polyArray = [];
+         $("#submit").click(function() {
+            var w_title = $('#title').val();
+            var w_raw = $('#raw').val();
+            var w_message = $('#message').val();
              $.ajax({
                  url: "test/",
                  type: 'POST',
                  cache: false,
                  dataType: 'json',
                  data: {
-                     geom : wkt,
+                     geom: wkt,
+                     title: w_title,
+                     raw: w_raw,
+                     message: w_message,
+                     markup: "Markdown",
                      csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
                  },
                  error: function(jqXHR, textStatus, errorThrown) {
@@ -44,25 +67,6 @@
                  },
                  success: function(data) {
                      var dataid = data.id;
-                     $.ajax({
-                         url: "/wiki/" + data.id + "/edit",
-                         type: 'POST',
-                         cache: false,
-                         data: {
-                             csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
-                         },
-                         error: function(jqXHR, textStatus, errorThrown) {
-                             alert("Messaging failed: " + errorThrown);
-                         },
-                         success: function(data) {
-                             document.getElementById("iframe").src = "/wiki/" + dataid + "/edit";
-                             var menuLeft = document.getElementById( 'cbp-spmenu-s1' );
-                             if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
-                                 classie.toggle( menuLeft, 'cbp-spmenu-open' );
-                             }
-                             $('#result').append('ServerResponse:' + data.server_response)
-                         }
-                     });
                  }
              });
          });
@@ -95,7 +99,17 @@
                      polyArray.push(polygonStore);
                      google.maps.event.addListener(poly, 'click', function (event) {
                          console.log(this.indexID);
-                         document.getElementById("iframe").src = "/wiki/" + this.indexID;
+                         var id = this.indexID;
+                          $.ajax({
+                              url: "get_wiki/",
+                              dataType: 'json',
+                              type: 'GET',
+                              success: function(data, status, jqXHR){
+                                    $("#message").val("");
+                                    $("#title").val(data[id].title);
+                                    $("#raw").val(data[id].raw);
+                              }
+                         });
                          var menuLeft = document.getElementById( 'cbp-spmenu-s1' );
                          if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
                              classie.toggle( menuLeft, 'cbp-spmenu-open' );

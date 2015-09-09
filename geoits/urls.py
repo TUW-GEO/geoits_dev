@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', home, name='home'),
     url(r'^gmap/test/$', 'geoits.apps.gmap.views.ajax'),
+    url(r'^gmap/get_wiki/$', 'geoits.apps.gmap.views.get_wiki_content'),
     url(r'^gmap/load_polygons/', load),
     url(r'^gmap/', 'geoits.apps.gmap.views.map', name='map'),
     url(r'^wiki/', include('waliki.urls')),
