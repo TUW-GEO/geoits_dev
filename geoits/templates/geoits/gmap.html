@@ -27,6 +27,8 @@
 
             <input class="btn btn-primary" id="submit" type="button" value="Submit" name="csrfmiddlewaretoken"></input>
 
+            <textarea id="poly_id" style="display: none"></textarea>
+
         </div>
     </nav>
     <div class="navbar-form navbar-right" id="button">
@@ -49,6 +51,7 @@
             var w_title = $('#title').val();
             var w_raw = $('#raw').val();
             var w_message = $('#message').val();
+            var w_poly_id = $('#poly_id').val();
              $.ajax({
                  url: "test/",
                  type: 'POST',
@@ -60,6 +63,7 @@
                      raw: w_raw,
                      message: w_message,
                      markup: "Markdown",
+                     polygon_id: w_poly_id,
                      csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val()
                  },
                  error: function(jqXHR, textStatus, errorThrown) {
@@ -108,6 +112,7 @@
                                     $("#message").val("");
                                     $("#title").val(data.title);
                                     $("#raw").val(data.raw);
+                                    $("#poly_id").val(id);
                               }
                          });
                          var menuLeft = document.getElementById( 'cbp-spmenu-s1' );

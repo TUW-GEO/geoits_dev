@@ -54,7 +54,7 @@ def ajax(request):
                                         'server_response': "Thank You!"}),
                             content_type='application/javascript')
     else:
-        create_waliki_page(request, slug=str(request.polygon_id))
+        create_waliki_page(request, slug=str(request.POST['polygon_id']))
         return HttpResponse(json.dumps({'success': True,
                                         'server_response': "Thank You!"}),
                             content_type='application/javascript')
