@@ -132,9 +132,16 @@ function FieldDrawingCompletionListener() {
             AddPropertyToField();
             FieldClickListener();
             GMapPolygonToWKT();
+            auto_click();
         }
     );
 }
+
+
+function auto_click() {
+    $('#showLeft').trigger('click');
+}
+
 
 function GMapPolygonToWKT(poly) {
     // Start the Polygon Well Known Text (WKT) expression
