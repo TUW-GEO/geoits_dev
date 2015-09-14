@@ -133,6 +133,7 @@ function FieldDrawingCompletionListener() {
             FieldClickListener();
             GMapPolygonToWKT();
             auto_click();
+            empty_textarea();
         }
     );
 }
@@ -142,6 +143,13 @@ function auto_click() {
     if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
         $('#showLeft').trigger('click');
     }
+}
+
+
+function empty_textarea() {
+    var w_title = $('#title').val('');
+    var w_raw = $('#raw').val('');
+    var w_message = $('#message').val('');
 }
 
 
