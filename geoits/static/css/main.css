@@ -8,6 +8,41 @@
     color: rgba(192, 192, 192, 0.3);
 }
 
+/* General styles for markdown textarea */
+
+#editor {
+  margin: 5px 0px 5px 0px;
+  height: 500px;
+  background-color: #f6f6f6;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+}
+
+textarea, #editor div {
+  display: inline-block;
+  width: 49%;
+  height: 100%;
+  vertical-align: top;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+
+textarea {
+  border: none;
+  border-right: 1px solid #ccc;
+  resize: none;
+  outline: none;
+  font-size: 12px;
+  font-family: 'Monaco', courier, monospace;
+  padding: 10px;
+}
+
+code {
+  color: #f66;
+}
+
 /* General styles for all menus */
 .cbp-spmenu {
 	background: #e6e6e6;
