@@ -16,6 +16,7 @@
     <div id="result"></div>
 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
+        <button class="fa fa-times" style="float: right; margin: 5px" id="hideSlide"></button>
         <h3>Issue</h3>
         <div class="form-group" style="margin: 5px">
 
@@ -41,6 +42,10 @@
             showLeft = document.getElementById( 'showLeft' ),
             body = document.body;
         showLeft.onclick = function() {
+            classie.toggle( menuLeft, 'cbp-spmenu-open' );
+         };
+            hideLeft = document.getElementById( 'hideSlide' ),
+        hideLeft.onclick = function() {
             classie.toggle( this, 'active' );
             classie.toggle( menuLeft, 'cbp-spmenu-open' );
          };
