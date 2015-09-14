@@ -139,7 +139,9 @@ function FieldDrawingCompletionListener() {
 
 
 function auto_click() {
-    $('#showLeft').trigger('click');
+    if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
+        $('#showLeft').trigger('click');
+    }
 }
 
 
