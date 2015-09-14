@@ -150,6 +150,7 @@ function empty_textarea() {
     var w_title = $('#title').val('');
     var w_raw = $('#raw').val('');
     var w_message = $('#message').val('');
+    w_raw = $('#raw').trigger('change');
 }
 
 
