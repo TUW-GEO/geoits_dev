@@ -58,6 +58,7 @@
     </script>
     <script>
      $(document).ready(function() {
+         var currentPolygon;
          new Vue({
              el: '#editor',
              data: {
@@ -120,15 +121,14 @@
                      polygonStore['id'] = polygon.id;
                      polygonStore['obj'] = poly;
                      poly.indexID = polygon.id;
+                     poly.selected = false;
                      polyArray.push(polygonStore);
                      google.maps.event.addListener(poly, 'click', function (event) {
-                         var selected_poly = new google.maps.Polygon({
-                             paths: coords,
-                             strokeColor: '#000000',
-                             strokeWeight: 1,
-                             fillOpacity: 0
-                         });
-                         selected_poly.setMap(map);
+                         if(currentPolygon){
+                             currentPolygon.setOptions({strokeColor: "#FF0000"});
+                         }
+                         currentPolygon = this;
+                         this.setOptions({strokeColor: "#000000"});
                          console.log(this.indexID);
                          var id = this.indexID;
                           $.ajax({
