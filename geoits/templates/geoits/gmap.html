@@ -51,6 +51,12 @@
          };
     </script>
     <script>
+        $("#hideSlide").click(function() {
+            geoField.setMap(null);
+            ShowDrawingTools(true);
+        })
+    </script>
+    <script>
      $(document).ready(function() {
          new Vue({
              el: '#editor',
