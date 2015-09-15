@@ -122,6 +122,13 @@
                      poly.indexID = polygon.id;
                      polyArray.push(polygonStore);
                      google.maps.event.addListener(poly, 'click', function (event) {
+                         var selected_poly = new google.maps.Polygon({
+                             paths: coords,
+                             strokeColor: '#000000',
+                             strokeWeight: 1,
+                             fillOpacity: 0
+                         });
+                         selected_poly.setMap(map);
                          console.log(this.indexID);
                          var id = this.indexID;
                           $.ajax({
