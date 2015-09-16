@@ -93,13 +93,24 @@ function initialize() {
     // create a dialog box
     geoInfoWindow = new google.maps.InfoWindow();
     DrawingTools();
+
+    // Draw a polygon after a defined zoom
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+        var zoom = map.getZoom();
+        if (zoom >= 13) {
+            ShowDrawingTools(true);
+        }
+        else if (zoom < 13) {
+            ShowDrawingTools(false);
+        }
+    });
 }
 
 // Drawing Tools
 function DrawingTools() {
     geoDrawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: null,
-        drawingControl: true,
+        drawingControl: false,
         drawingControlOptions: {
             position: google.maps.ControlPosition.RIGHT_TOP,
             drawingModes: [
