@@ -28,7 +28,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -36,7 +36,7 @@
       </button>
       <a class="navbar-brand" href="/">Geo Issue Tracking System</a>
     </div>
-    <div class="navbar-collapse collapse">
+    <div class="navbar-collapse collapse" id="navbar">
       <div class="navbar-form navbar-right">
         {% if user.is_authenticated %}
           <a id="logout" href="/accounts/logout" class="btn btn-success">Logout</a>
@@ -58,8 +58,6 @@
 
 
 {% block footer_javascript %}{% endblock %}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="static/js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
 
     <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
 
