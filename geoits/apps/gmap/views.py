@@ -40,7 +40,10 @@ def map(request):
 
 
 def ajax(request):
-    if request.POST.has_key('geom'):
+    if not request.user.is_authenticated():
+        return HttpResponse(json.dumps({'success': False}))
+
+    if 'geom' in request.POST:
         req_gmap = {'geom': request.POST['geom'],
                     'csrfmiddlewaretoken': request.POST['csrfmiddlewaretoken']}
         form = GMapForm(req_gmap or None)

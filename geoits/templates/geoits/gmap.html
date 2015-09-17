@@ -37,6 +37,39 @@
         <button class="btn btn-success" id="showLeft">Save</button>
     </div>
 
+    <!-- Permission for Mark an Issue -->
+    {% if user.is_authenticated %}
+    <button id="draw_poly" title="Draw a shape" class="btn btn-danger btn-lg" style="position: relative; right: 10px;">Mark an Issue</button>
+
+    {% else %}
+    <button type="button" id="draw_poly" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Mark an Issue</button>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <p>Please Sign In or Register to mark an issue</p>
+          </div>
+          <div class="modal-body">
+            <p>
+              <input id="signin" type="button" class="btn btn-success" value="Sign In"/>
+              or
+              <input id="register" type="button" class="btn btn-success" value="Register"/>
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endif %}
+
     <script>
         var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
             showLeft = document.getElementById( 'showLeft' ),
@@ -55,6 +88,15 @@
             geoField.setMap(null);
             ShowDrawingTools(true);
         })
+    </script>
+    <script>
+     $("#signin").click(function() {
+        window.location.href="/accounts/login/"
+     })
+
+     $("#register").click(function() {
+        window.location.href="/accounts/signup/"
+     })
     </script>
     <script>
      $(document).ready(function() {
@@ -91,7 +133,9 @@
                      alert("Messaging failed: " + errorThrown);
                  },
                  success: function(data) {
-                     var dataid = data.id;
+                     if(!data.success){
+                         window.location.href="/accounts/login/"
+                     }
                  }
              });
          });

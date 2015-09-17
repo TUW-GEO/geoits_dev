@@ -8,8 +8,6 @@ var wkt;
 // Draw Map !
 function initialize() {
 
-    centerPoint = new google.maps.LatLng(42.195882, 36.369107);
-
     var myOptions = {
         panControl: false,
         zoomControl: false,
@@ -21,7 +19,6 @@ function initialize() {
         disableDoubleClickZoom: true,
         scrollwheel: true,
         zoom: 12,
-        center: centerPoint,
         mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.DEFAULT,
         position: google.maps.ControlPosition.TOP_RIGHT,
@@ -79,7 +76,7 @@ function initialize() {
         if (errorFlag) {
             var content = 'Error: The Geolocation service failed.';
         } else {
-            var content = 'Error: Your browser doesn\'t support geolocation.';
+            content = 'Error: Your browser doesn\'t support geolocation.';
         }
         var options = {
             map: map,
@@ -95,27 +92,40 @@ function initialize() {
     DrawingTools();
 
     // Draw a polygon after a defined zoom
-    google.maps.event.addListener(map, 'zoom_changed', function() {
-        var zoom = map.getZoom();
-        if (zoom >= 13) {
-            ShowDrawingTools(true);
-        }
-        else if (zoom < 13) {
-            ShowDrawingTools(false);
-        }
+
+    var drawingControlDiv = document.createElement('div');
+    var polyControl = new DrawingControl(drawingControlDiv, map);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(drawingControlDiv);
+}
+
+
+function DrawingControl(controlDiv, map) {
+
+    var controlUI = document.getElementById('draw_poly');
+    controlDiv.appendChild(controlUI);
+
+    controlUI.addEventListener('click', function() {
+        google.maps.event.addListener(map, 'zoom_changed', function() {
+            var zoom = map.getZoom();
+            if (zoom >= 13) {
+                geoDrawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+            }
+            else if (zoom < 13) {
+                geoDrawingManager.setDrawingMode(null);
+            }
+        });
     });
 }
+
 
 // Drawing Tools
 function DrawingTools() {
     geoDrawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: null,
-        drawingControl: false,
+        drawingControl: true,
         drawingControlOptions: {
             position: google.maps.ControlPosition.RIGHT_TOP,
-            drawingModes: [
-                google.maps.drawing.OverlayType.POLYGON,
-            ]
+            drawingModes: []
         },
         polygonOptions: {
             draggable: true,
