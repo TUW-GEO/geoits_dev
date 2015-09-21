@@ -42,8 +42,9 @@
     <input id="draw_poly" type="button" class="btn btn-danger btn-lg" style="position: relative; right: 10px; width: 220px; height: 45px;"></input>
 
     {% else %}
-    <button type="button" id="draw_poly" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Mark an Issue</button>
+    <button id="draw_poly" style="visibility: hidden;"></button>
 
+    <button class="btn btn-danger btn-lg" style="position: relative; left: 50%" data-toggle="modal" data-target="#myModal">Mark an Issue</button>
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
