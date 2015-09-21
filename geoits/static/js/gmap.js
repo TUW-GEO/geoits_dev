@@ -130,7 +130,7 @@ function DrawingControl(controlDiv, map) {
 function DrawingTools() {
     geoDrawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: null,
-        drawingControl: true,
+        drawingControl: false,
         drawingControlOptions: {
             position: google.maps.ControlPosition.RIGHT_TOP,
             drawingModes: []
@@ -212,8 +212,7 @@ function GMapPolygonToWKT(poly) {
 // show or hide the drawing tools
 function ShowDrawingTools(val) {
     geoDrawingManager.setOptions({
-        drawingMode: null,
-        drawingControl: val
+        drawingMode: null
     });
     drawingControlDiv.style.display = 'none';
 }
