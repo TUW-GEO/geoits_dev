@@ -18,6 +18,13 @@
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <button class="fa fa-times" style="float: right; margin: 5px" id="hideSlide"></button>
         <h3>Issue</h3>
+
+        <div style="margin: 0px 20px 15px">
+          <a href="" id="hist">
+            <i class="fa fa-history fa-2x" type="button"></i>
+          </a>
+        </div>
+
         <div class="form-group" style="margin: 5px">
 
             <textarea class="form-control" id="title" style="height: 35px;" placeholder="Title"></textarea>
@@ -186,6 +193,9 @@
                                     $("#raw").val(data.raw);
                                     $("#raw").trigger("change");
                                     $("#poly_id").val(id);
+                                    var link = "/wiki/" + id + "/history/";
+                                    var a = document.getElementById('hist');
+                                    a.href = link;
                               }
                          });
                          var menuLeft = document.getElementById( 'cbp-spmenu-s1' );
