@@ -39,7 +39,7 @@
 
     <!-- Permission for Mark an Issue -->
     {% if user.is_authenticated %}
-    <button id="draw_poly" title="Draw a shape" class="btn btn-danger btn-lg" style="position: relative; right: 10px;">Mark an Issue</button>
+    <input id="draw_poly" type="button" class="btn btn-danger btn-lg" style="position: relative; right: 10px; width: 220px; height: 45px;"></input>
 
     {% else %}
     <button type="button" id="draw_poly" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#myModal">Mark an Issue</button>
@@ -87,6 +87,7 @@
         $("#hideSlide").click(function() {
             geoField.setMap(null);
             ShowDrawingTools(true);
+            drawingControlDiv.style.display = '';
         })
     </script>
     <script>

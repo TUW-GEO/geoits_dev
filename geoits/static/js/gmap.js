@@ -4,6 +4,7 @@ var geoInfoWindow;
 var centerPoint;
 var geoField; //holds the polygon usre draws using drawing tools
 var wkt;
+var drawingControlDiv;
 
 // Draw Map !
 function initialize() {
@@ -93,7 +94,7 @@ function initialize() {
 
     // Draw a polygon after a defined zoom
 
-    var drawingControlDiv = document.createElement('div');
+    drawingControlDiv = document.createElement('div');
     var polyControl = new DrawingControl(drawingControlDiv, map);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(drawingControlDiv);
 }
@@ -105,15 +106,22 @@ function DrawingControl(controlDiv, map) {
     controlDiv.appendChild(controlUI);
 
     controlUI.addEventListener('click', function() {
-        google.maps.event.addListener(map, 'zoom_changed', function() {
-            var zoom = map.getZoom();
-            if (zoom >= 13) {
-                geoDrawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-            }
-            else if (zoom < 13) {
-                geoDrawingManager.setDrawingMode(null);
-            }
-        });
+        geoDrawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    });
+
+    google.maps.event.addListener(map, 'tilesloaded', function() {
+        var zoom = map.getZoom();
+        if (zoom >= 13) {
+            controlUI.value = 'Draw a Polygon';
+            controlUI.style.pointerEvents = 'auto';
+            controlUI.style.opacity = '1';
+        }
+        else if (zoom < 13) {
+            controlUI.value = 'Please Zoom in closer';
+            controlUI.style.opacity = '0.7';
+            controlUI.style.pointerEvents = 'none';
+            geoDrawingManager.setDrawingMode();
+        }
     });
 }
 
@@ -207,6 +215,7 @@ function ShowDrawingTools(val) {
         drawingMode: null,
         drawingControl: val
     });
+    drawingControlDiv.style.display = 'none';
 }
 
 // Allow or disallow polygon to be editable and draggable
@@ -253,6 +262,8 @@ function DeleteField() {
     geoInfoWindow.close();
     geoField.setMap(null);
     ShowDrawingTools(true);
+    drawingControlDiv.style.display = '';
+    $('#showLeft').trigger('click');
 }
 
 // Get area of the drawn polygon in acres
