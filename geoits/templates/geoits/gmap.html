@@ -35,6 +35,11 @@
             </div>
 
             <input class="btn btn-primary" id="submit" type="button" value="Submit" name="csrfmiddlewaretoken"></input>
+            <div style="display: none;" id="editicons" align="right">
+            <input class="btn btn-success btn-xs" type="button" value="Edit polygon" onclick="PolygonEditable(true);"></input>
+            <input class="btn btn-success btn-xs" type="button" value="Save edited polygon" onclick="PolygonEditable(false);"></input>
+            <input class="btn btn-danger btn-xs" type="button" value="Delete polygon" onclick="DeleteField();"></input>
+            </div>
 
             <textarea id="poly_id" style="display: none"></textarea>
 

@@ -219,6 +219,7 @@ function ShowDrawingTools(val) {
 
 // Allow or disallow polygon to be editable and draggable
 function PolygonEditable(val) {
+    $('#editicons').show(val);
     geoField.setOptions({
         editable: val,
         draggable: val
@@ -264,6 +265,7 @@ function DeleteField() {
     ShowDrawingTools(true);
     drawingControlDiv.style.display = '';
     $('#showLeft').trigger('click');
+    $('#editicons').hide();
 }
 
 // Get area of the drawn polygon in acres
@@ -303,10 +305,7 @@ function GetMessage(polygon) {
     }
     coordinateMessage += '</p>';
 
-    message += '<p><a href="#" onclick="PolygonEditable(true);">Edit</a> '
-        + '<a href="#" onclick="PolygonEditable(false);">Done</a> '
-        + '<a href="#" onclick="DeleteField(geoField)">Delete</a></p>'
-        + coordinateMessage;
+    message += coordinateMessage;
 
     return message;
 }
