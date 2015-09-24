@@ -224,7 +224,8 @@ function PolygonEditable(val) {
         draggable: val
     });
     geoInfoWindow.close();
-    return false;
+    GMapPolygonToWKT(geoField);
+    return wkt;
 }
 
 // Add custom property to the polygon
