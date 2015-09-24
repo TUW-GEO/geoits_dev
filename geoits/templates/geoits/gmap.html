@@ -78,11 +78,6 @@
     </div>
     {% endif %}
 
-    <div class="container">
-        <div id="alert_placeholder">
-        </div>
-    </div>
-
     <script>
         var menuLeft = document.getElementById( 'cbp-spmenu-s1' ),
             showLeft = document.getElementById( 'showLeft' ),
@@ -152,12 +147,7 @@
                      }
                      else {
                          $('#showLeft').click()
-                         bootstrap_alert = function() {}
-                         bootstrap_alert.warning = function(message) {
-                             $('#alert_placeholder').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><span>'+message+'</span></div>')
-                         }
-
-                         bootstrap_alert.warning('You saved successfully the isuue, Thank you!');
+                         location.reload()
                      }
                  }
              });
