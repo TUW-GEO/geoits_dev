@@ -16,7 +16,7 @@
     <div id="result"></div>
 
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
-        <button class="fa fa-times" style="float: right; margin: 5px" id="hideSlide"></button>
+        <button class="close" style="float: right; margin: 15px" id="hideSlide">x</button>
         <h3>Issue</h3>
 
         <div style="margin: 0px 20px 15px">
@@ -97,9 +97,12 @@
          };
     </script>
     <script>
-        $("#hideSlide").click(function() {
+     $("#hideSlide").click(function() {
+         if(typeof geoField != 'undefined') {
             geoField.setMap(null);
+         }
             ShowDrawingTools(true);
+            $("#editicons").hide();
             drawingControlDiv.style.display = '';
         })
     </script>
