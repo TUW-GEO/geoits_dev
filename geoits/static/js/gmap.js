@@ -1,10 +1,9 @@
 var map;
 var geoDrawingManager;
 var geoInfoWindow;
-var centerPoint;
-var geoField; //holds the polygon usre draws using drawing tools
-var wkt;
-var drawingControlDiv;
+var geoField; // Holds the polygon usre draws using drawing tools
+var wkt; // Holds converted polygon
+var drawingControlDiv; // Draw's icon
 
 // Draw Map !
 function initialize() {
@@ -36,7 +35,7 @@ function initialize() {
     // show the map with the options listed above
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-    // Add OSM Map
+    // Add OpenStreetMap to mapType
     map.mapTypes.set("OSM", new google.maps.ImageMapType({
             getTileUrl: function(coord, zoom) {
                 var tilesPerGlobe = 1 << zoom;
@@ -100,6 +99,7 @@ function initialize() {
 }
 
 
+// Control drawing icon on map
 function DrawingControl(controlDiv, map) {
 
     var controlUI = document.getElementById('draw_poly');
@@ -109,13 +109,16 @@ function DrawingControl(controlDiv, map) {
         geoDrawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
     });
 
+    // Zoom conditional statement after all the map's tiles loaded
     google.maps.event.addListener(map, 'tilesloaded', function() {
         var zoom = map.getZoom();
+        // Enabled draw's icon
         if (zoom >= 13) {
             controlUI.value = 'Draw a Polygon';
             controlUI.style.pointerEvents = 'auto';
             controlUI.style.opacity = '1';
         }
+        // Disabled draw's icon
         else if (zoom < 13) {
             controlUI.value = 'Please Zoom in closer';
             controlUI.style.opacity = '0.7';
@@ -167,6 +170,7 @@ function FieldDrawingCompletionListener() {
 }
 
 
+// Open Wiki slide after polygon is completed
 function auto_click() {
     if(!$('#cbp-spmenu-s1').hasClass('cbp-spmenu-open')){
         $('#showLeft').trigger('click');
@@ -174,6 +178,7 @@ function auto_click() {
 }
 
 
+// erase all text area in wiki, ready for new polygon
 function empty_textarea() {
     var w_title = $('#title').val('');
     var w_raw = $('#raw').val('');
@@ -182,6 +187,7 @@ function empty_textarea() {
 }
 
 
+// Convert google map polygon array to Well Known Text
 function GMapPolygonToWKT(poly) {
     // Start the Polygon Well Known Text (WKT) expression
     wkt = "SRID=4326;POLYGON(";
@@ -208,7 +214,8 @@ function GMapPolygonToWKT(poly) {
     return wkt;
 }
 
-// show or hide the drawing tools
+
+// Show or hide the drawing tools
 function ShowDrawingTools(val) {
     geoDrawingManager.setOptions({
         drawingMode: null
@@ -216,9 +223,10 @@ function ShowDrawingTools(val) {
     drawingControlDiv.style.display = 'none';
 }
 
+
 // Allow or disallow polygon to be editable and draggable
 function PolygonEditable(val) {
-    $('#editicons').show(val);
+    $('#editicons').show();
     geoField.setOptions({
         editable: val,
         draggable: val
@@ -228,8 +236,9 @@ function PolygonEditable(val) {
     return wkt;
 }
 
+
 /**
- * get a formatted message that contains links to re-edit the 
+ * get a formatted message that contains links to re-edit the
  * polygon, mark the polygon as complete, or delete the polygon.
  */
 function FieldClickListener() {
@@ -247,13 +256,13 @@ function FieldClickListener() {
     );
 }
 
-// Delete the polygon and show the drawing tools so that new polygon can be created
+// Delete created polygon
 function DeleteField() {
     geoInfoWindow.close();
     geoField.setMap(null);
     ShowDrawingTools(true);
     drawingControlDiv.style.display = '';
-    $('#showLeft').trigger('click');
+    $('#showLeft').trigger('click'); // Close wiki slide
     $('#editicons').hide();
 }
 
@@ -263,7 +272,8 @@ function DeleteField() {
  * appear in the polygon's dialog box when it is clicked
  */
 function GetMessage(polygon) {
-    var coordinates = polygon.getPath().getArray(); // save the coordiantes of the path
+    // save the coordiantes of the path
+    var coordinates = polygon.getPath().getArray();
     var message = '';
 
     var coordinateMessage = '<p style="color:#000">Coordinates are:</p><p class="alert alert-info">';
