@@ -158,7 +158,6 @@ function FieldDrawingCompletionListener() {
             geoField = polygon;
             ShowDrawingTools(false);
             PolygonEditable(false);
-            AddPropertyToField();
             FieldClickListener();
             GMapPolygonToWKT();
             auto_click();
@@ -229,16 +228,6 @@ function PolygonEditable(val) {
     return wkt;
 }
 
-// Add custom property to the polygon
-function AddPropertyToField() {
-    var obj = {
-        'id': 5,
-        'GeoITS': 'dev',
-        'Issue': 'Tracking'
-    };
-    geoField.objInfo = obj;
-}
-
 /**
  * get a formatted message that contains links to re-edit the 
  * polygon, mark the polygon as complete, or delete the polygon.
@@ -268,11 +257,6 @@ function DeleteField() {
     $('#editicons').hide();
 }
 
-// Get area of the drawn polygon in acres
-function GetArea(poly) {
-    var result = parseFloat(google.maps.geometry.spherical.computeArea(poly.getPath())) * 0.000247105;
-    return result.toFixed(4);
-}
 
 /**
  * Get coordinates of the polygon and display information that should 
@@ -282,21 +266,7 @@ function GetMessage(polygon) {
     var coordinates = polygon.getPath().getArray(); // save the coordiantes of the path
     var message = '';
 
-    if (typeof geoField != 'undefined') {
-        message += '<h1 style="color:#000; font-size:20px">GeoITS: '
-            + geoField.objInfo.GeoITS
-            + '<br>'
-            + 'Issue: '
-            + geoField.objInfo.Issue
-            + '</h1>';
-    }
-
-    message += '<div style="color:#000">This polygon has '
-        + coordinates.length + ' points<br>' + 'Area is '
-        + GetArea(polygon)
-        + ' acres</div>';
-
-    var coordinateMessage = '<p style="color:#000">My coordinates are:<br>';
+    var coordinateMessage = '<p style="color:#000">Coordinates are:</p><p class="alert alert-info">';
     for (var i = 0; i < coordinates.length; i++) {
         coordinateMessage += coordinates[i].lat()
             + ', '
