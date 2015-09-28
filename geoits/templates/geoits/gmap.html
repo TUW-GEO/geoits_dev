@@ -1,52 +1,59 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% block head_title %}GeoITS Development{% endblock %}
+
+{% block map_script %}
+      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing,geometry"></script>
+      <script src="{% static 'js/gmap.js' %}"></script>
+      <script src="{% static 'js/vue.js' %}"></script>
+      <script src="{% static 'js/classie.js' %}"></script>
+{% endblock %}
 
 {% block map %}
-
-<script language="Javascript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=drawing,geometry"></script>
-<script src="{% static 'js/gmap.js' %}"></script>
-
-<body style="height: 50px;">
     <!--Google Maps APIv3 Background-->
-    <div action="" method="POST"> {%csrf_token%}
+    <div action="" method="POST">
+        {% csrf_token %}
         <div id="map_canvas"></div>
     </div>
-    <div id="result"></div>
 
+    <!--Wiki Slide-->
     <nav class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left" id="cbp-spmenu-s1">
         <button class="close" style="float: right; margin: 15px" id="hideSlide">x</button>
         <h3>Issue</h3>
 
+        <!--Wiki Git History-->
         <div style="margin: 0px 20px 15px">
-          <a href="" id="hist">
-            <i class="fa fa-history fa-2x" type="button"></i>
-          </a>
+            <a href="" id="hist">
+                <i class="fa fa-history fa-2x" type="button"></i>
+            </a>
         </div>
 
         <div class="form-group" style="margin: 5px">
-
             <textarea class="form-control" id="title" style="height: 35px;" placeholder="Title"></textarea>
 
+            <!--Wiki raw based on Mardown format-->
             <div id="editor" class="form-control">
                 <textarea v-model="input" debounce="300" id="raw" placeholder="Raw"></textarea>
                 <div v-html="input | marked"></div>
             </div>
 
+            <!--Submit to save polygon and wiki page-->
             <input class="btn btn-primary" id="submit" type="button" value="Submit" name="csrfmiddlewaretoken"></input>
+
+            <!--Polygon edit icons for new polygon-->
             <div style="display: none;" id="editicons" align="right">
-            <input class="btn btn-success btn-xs" type="button" value="Edit polygon" onclick="PolygonEditable(true);"></input>
-            <input class="btn btn-success btn-xs" type="button" value="Save edited polygon" onclick="PolygonEditable(false);"></input>
-            <input class="btn btn-danger btn-xs" type="button" value="Delete polygon" onclick="DeleteField();"></input>
+                <input class="btn btn-success btn-xs" type="button" value="Edit polygon" onclick="PolygonEditable(true);"></input>
+                <input class="btn btn-success btn-xs" type="button" value="Save edited polygon" onclick="PolygonEditable(false);"></input>
+                <input class="btn btn-danger btn-xs" type="button" value="Delete polygon" onclick="DeleteField();"></input>
             </div>
 
+            <!--Send polygon id to views.py-->
             <textarea id="poly_id" style="display: none"></textarea>
-
         </div>
     </nav>
+
+    <!--Hide or Show the wiki slide-->
     <div class="navbar-form navbar-right" style="display: none" id="button">
-        <button class="btn btn-success" id="showLeft">Save</button>
+        <button class="btn btn-success" id="showLeft"></button>
     </div>
 
     <!-- Permission for Mark an Issue -->
@@ -55,31 +62,31 @@
 
     {% else %}
     <button id="draw_poly" style="visibility: hidden;"></button>
-
     <button class="btn btn-danger btn-lg" style="position: relative; left: 50%" data-toggle="modal" data-target="#myModal">Mark an Issue</button>
+
     <!-- Modal -->
     <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
+        <div class="modal-dialog">
 
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <p>Please Sign In or Register to mark an issue</p>
-          </div>
-          <div class="modal-body">
-            <p>
-              <input id="signin" type="button" class="btn btn-success" value="Sign In"/>
-              or
-              <input id="register" type="button" class="btn btn-success" value="Register"/>
-            </p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <p>Please Sign In or Register to mark an issue</p>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <input id="signin" type="button" class="btn btn-success" value="Sign In"/>
+                        or
+                        <input id="register" type="button" class="btn btn-success" value="Register"/>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
         </div>
-
-      </div>
     </div>
     {% endif %}
 
@@ -221,6 +228,5 @@
          });
      });
     </script>
-</body>
 
 {% endblock %}
