@@ -86,7 +86,7 @@ Next, install the packages in environment::
 
 GeoDjango Installation 
 -----------------------
-Installing Geospatial libraries: (These are required for PostgreSQL database)::
+Installing Geospatial libraries: (These are required for PostgreSQL database):
 
     **GEOS** https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/#geos
     **PROJ.4** https://docs.djangoproject.com/en/1.8/ref/contrib/gis/install/geolibs/#proj4
